@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MetraLens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <section class="login-screen registration-active" id="loginScreen">
+    <div class="login-art">
+      <div class="login-brand">
+        <div class="brand-mark">
+          <img src="final.png" alt="MetraLens Logo">
+        </div>
+        <div class="brand-copy">
+          <strong>Metra<span>Lens</span></strong>
+          <small>Aletheia</small>
+        </div>
+      </div>
+      <div class="login-art-copy">
+        <p class="eyebrow">ALETHEIA INSPECTION SUITE</p>
+        <h1>Make every label count.</h1>
+        <p>Verify packaged commodities with a clear, evidence-led inspection trail.</p>
+        <div class="login-scanner" aria-label="Live label inspection preview">
+          <div class="scanner-head"><span><i data-lucide="scan-line"></i> LIVE LABEL CHECK</span><b><i></i>
+              ONLINE</b></div>
+          <div class="scanner-stage">
+            <div class="scanner-glow"></div>
+            <div class="scanner-label">
+              <div class="label-top"><span>PURE &amp; SIMPLE</span><i data-lucide="badge-check"></i></div>
+              <strong>EVERCLEAN</strong>
+              <small>Liquid detergent</small>
+              <div class="label-lines"><i></i><i></i><i></i></div>
+              <div class="label-foot"><b>2 L</b><span>MRP Rs. 248</span></div>
+            </div>
+            <div class="scan-line"></div>
+            <span class="scan-corner top-left"></span><span class="scan-corner top-right"></span>
+            <span class="scan-corner bottom-left"></span><span class="scan-corner bottom-right"></span>
+          </div>
+          <div class="scanner-readouts"><span><i data-lucide="check-circle-2"></i> 06 declarations
+              found</span><span><i data-lucide="shield-check"></i> Rules 2011</span><strong>78%</strong>
+          </div>
+        </div>
+      </div>
+      <div class="login-art-footer"><span><i data-lucide="shield-check"></i> Built for authorized
+          officers</span><span>Aletheia</span></div>
+    </div>
+    <form class="login-card hidden" id="loginForm">
+      <p class="eyebrow">WELCOME BACK</p>
+      <h2>Sign in to Metra<span>Lens</span></h2>
+      <p class="login-copy">Continue your compliance workspace.</p>
+      <label>Work email<input type="email" id="loginEmail" value="jay.chauhan@aletheia.gov.in" required><span class="field-error-msg" id="loginEmailError"></span></label>
+      <label>Phone number<input type="tel" id="loginPhone" value="9898098482" placeholder="+91 98••• ••482" inputmode="tel"
+          required><span class="field-error-msg" id="loginPhoneError"></span></label> <!--Number-->
+      <label>Password<div class="password-field"><input type="password" id="loginPassword" value="inspection2026"
+            required><button type="button" class="password-toggle" data-password-target="loginPassword"
+            aria-label="Show password"><i data-lucide="eye"></i></button>
+        </div><span class="field-error-msg" id="loginPasswordError"></span></label>
+      <label>Role<select id="loginRole" required>
+          <option value="" disabled>Select your role</option>
+          <option value="Enforcement officer" selected>Enforcement officer</option>
+          <option value="Senior inspector">Senior inspector</option>
+          <option value="Field inspector">Field inspector</option>
+          <option value="Administrator">Administrator</option>
+        </select><span class="field-error-msg" id="loginRoleError"></span></label>
+      <div class="login-options"><label class="check-label"><input type="checkbox" checked> Keep me signed
+          in</label><button type="button" class="link-btn" data-action="forgot-password">Forgot
+          password?</button></div>
+      <button class="primary-btn login-btn" type="submit">Enter workspace <i data-lucide="arrow-right"></i></button>
+      <p class="auth-switch">New to Metra<span>Lens</span>? <button type="button" class="link-btn"
+          data-action="show-registration">Create an account</button></p>
+      <p class="login-note"><i data-lucide="lock"></i> Your inspection data is encrypted in transit.</p>
+    </form>
+    <form class="login-card registration-card" id="registrationForm">
+      <p class="eyebrow">GET STARTED</p>
+      <h2>Create your Metra<span>Lens</span> account</h2>
+      <p class="login-copy">Set up your officer profile to begin inspecting labels.</p>
+      <label>Full name<input type="text" id="registrationName" placeholder="Ex.Jay Chauhan" required></label>
+      <label>Work email<input type="email" id="registrationEmail" placeholder="Ex.name@aletheia.gov.in"
+          required></label>
+      <label>Phone number<input type="tel" id="registrationPhone" placeholder="+91 98••• ••482" inputmode="tel"
+          required></label>
+      <label>Password<div class="password-field"><input type="password" id="registrationPassword"
+            placeholder="Create a password" minlength="8" required><button type="button" class="password-toggle"
+            data-password-target="registrationPassword" aria-label="Show password"><i data-lucide="eye"></i></button>
+        </div></label>
+      <label>Role<select id="registrationRole" required>
+          <option value="" selected disabled>Select your role</option>
+          <option value="Enforcement officer">Enforcement officer</option>
+          <option value="Senior inspector">Senior inspector</option>
+          <option value="Field inspector">Field inspector</option>
+          <option value="Administrator">Administrator</option>
+        </select></label>
+      <label class="check-label registration-terms"><input type="checkbox" id="registrationTerms" required>
+        I agree to the inspection workspace terms</label>
+      <button class="primary-btn login-btn" type="submit">Create account <i data-lucide="arrow-right"></i></button>
+      <p class="auth-switch">Already have an account? <button type="button" class="link-btn"
+          data-action="show-login">Sign in</button></p>
+      <p class="login-note"><i data-lucide="shield-check"></i> Your profile is protected in transit.</p>
+    </form>
+  </section>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="final.png" alt="MetraLens Logo">
+        </div>
+        <div><strong>Metra<span>Lens</span></strong><small>Aletheia</small></div>
+      </div>
+
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <p class="nav-label">Workspace</p>
+        <button class="nav-item active" data-page="overview"><i
+            data-lucide="layout-dashboard"></i><span>Overview</span></button>
+        <button class="nav-item" data-page="scan"><i data-lucide="scan-line"></i><span>Scan
+            product</span></button>
+        <button class="nav-item" data-page="repository"><i data-lucide="archive"></i><span>Product
+            repository</span></button>
+        <button class="nav-item" data-page="reports"><i data-lucide="file-check-2"></i><span>Reports</span></button>
+        <button class="nav-item" data-page="history"><i data-lucide="history"></i><span>Inspection
+            history</span></button>
+        <button class="nav-item" data-page="analytics"><i
+            data-lucide="chart-no-axes-combined"></i><span>Analytics</span></button>
+        <p class="nav-label second">Management</p>
+        <button class="nav-item" data-page="team"><i data-lucide="users"></i><span>Inspection
+            team</span></button>
+        <button class="nav-item" data-page="settings"><i data-lucide="settings-2"></i><span>Settings</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="help-card" data-action="rules-library" type="button">
+          <div class="help-icon"><i data-lucide="book-open"></i></div>
+          <div><strong>Rules library</strong>
+            <p id="rulesLibrarySummary">Quick reference for 2011 rules</p>
+          </div><i data-lucide="arrow-up-right" class="arrow"></i>
+          <input id="rulesLibraryInput" type="file" accept=".pdf,.doc,.docx,.txt,.rtf" hidden>
+        </button>
+        <div class="profile">
+          <div class="avatar">JC</div>
+          <div><strong id="profileName">Jay Chauhan</strong><small id="profileRole">Enforcement
+              officer</small></div>
+          <button class="profile-more" data-action="account" aria-label="Show officer details"><i
+              data-lucide="more-horizontal"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation"><i data-lucide="menu"></i></button>
+        <div class="breadcrumbs"><button class="breadcrumb-home" type="button"
+            data-action="overview">Workspace</button><i data-lucide="chevron-right"></i><strong
+            id="breadcrumbCurrent">Overview</strong></div>
+        <div class="top-actions"><button class="icon-btn notification-trigger" title="Notifications"
+            data-action="notifications"><i data-lucide="bell"></i><em></em></button>
+          <button class="top-avatar account-trigger" data-action="account" aria-label="Open account menu">JC</button>
+          <div class="popover notification-popover" id="notificationPopover">
+            <div class="popover-heading"><strong>Notifications</strong><button class="link-btn"
+                data-action="mark-notifications">Mark all read</button></div>
+            <div id="notificationList"></div>
+          </div>
+          <div class="popover account-popover" id="accountPopover">
+            <div class="account-popover-head">
+              <div class="avatar">JC</div>
+              <div><strong>Jay Chauhan</strong><small>Enforcement officer</small></div>
+            </div>
+            <div class="account-detail"><span>Work
+                email</span><strong>jay.chauhan@aletheia.gov.in</strong></div>
+            <div class="account-detail"><span>Phone</span><strong>+91 98••• ••482</strong></div><button
+              class="account-action" data-action="account-settings"><i data-lucide="settings-2"></i>
+              Account settings</button><button class="account-action logout" data-action="logout"><i
+                data-lucide="log-out"></i> Sign out</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="page" id="overviewPage">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">wednesday, 16 SEPTEMBER 2026</p>
+            <h1>Welcome, Jay Chauhan.</h1>
+            <p class="subheading">Here’s the state of your compliance inspections today.</p>
+          </div><button class="primary-btn" id="startScan"><i data-lucide="plus"></i> Start new scan</button>
+        </div>
+
+        <div class="stat-grid">
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon blue"><i data-lucide="scan-line"></i></span><span
+                class="trend up"><i data-lucide="trending-up"></i> 12.8%</span></div>
+            <p>Scans this month</p><strong>248</strong><small>vs. 220 last month</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon green"><i data-lucide="badge-check"></i></span><span
+                class="trend up"><i data-lucide="trending-up"></i> 8.4%</span></div>
+            <p>Compliant products</p><strong>184</strong><small>74.2% of total scans</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon coral"><i data-lucide="triangle-alert"></i></span><span
+                class="trend down"><i data-lucide="trending-down"></i> 3.2%</span></div>
+            <p>Needs attention</p><strong>64</strong><small>16 high priority cases</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon violet"><i data-lucide="clock-3"></i></span><span
+                class="trend neutral">This week</span></div>
+            <p>Avg. review time</p><strong>04:32</strong><small>min per product</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel activity-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Inspection activity</h2>
+                <p>Scans and compliance rate over time</p>
+              </div><label class="select-btn activity-range-select" for="activityRange"><span
+                  id="activityRangeLabel">Last 30 days</span><select id="activityRange"
+                  aria-label="Activity date range">
+                  <option value="21">Last 21 days</option>
+                  <option value="30" selected>Last 30 days</option>
+                  <option value="60">Last 60 days</option>
+                </select><i data-lucide="chevron-down"></i></label>
+            </div>
+            <div class="chart-wrap">
+              <div class="y-axis">
+                <span>100</span><span>75</span><span>50</span><span>25</span><span>0</span>
+              </div>
+              <div class="chart">
+                <div class="grid-lines"><i></i><i></i><i></i><i></i><i></i></div><svg viewBox="0 0 650 220"
+                  preserveAspectRatio="none" aria-label="Inspection activity chart">
+                  <defs>
+                    <linearGradient id="area" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#1e76ff" stop-opacity=".18" />
+                      <stop offset="1" stop-color="#1e76ff" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <path id="activityArea"
+                    d="M0,155 C45,140 55,155 90,125 S145,145 180,95 S230,110 265,100 S310,125 350,80 S400,120 435,75 S480,65 520,55 S570,83 600,43 S625,55 650,25 L650,220 L0,220 Z"
+                    fill="url(#area)" />
+                  <path id="activityLine"
+                    d="M0,155 C45,140 55,155 90,125 S145,145 180,95 S230,110 265,100 S310,125 350,80 S400,120 435,75 S480,65 520,55 S570,83 600,43 S625,55 650,25"
+                    fill="none" stroke="#1e76ff" stroke-width="3" stroke-linecap="round" />
+                  <circle id="activityPoint" cx="520" cy="55" r="5" fill="#fff" stroke="#1e76ff" stroke-width="3" />
+                </svg>
+                <div class="x-axis" id="activityAxis"><span>Aug 12</span><span>Aug 19</span><span>Aug 26</span><span>Sep
+                    02</span><span>Sep 11</span></div>
+              </div>
+            </div>
+            <div class="chart-legend"><span><i class="blue-dot"></i> Total scans</span><span><i class="green-dot"></i>
+                Compliance rate</span></div>
+          </article>
+          <article class="panel status-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Compliance status</h2>
+                <p>Across all inspected products</p>
+              </div>
+              <div class="status-menu-wrap"><button class="more-btn" data-action="status-summary"
+                  title="View status options" aria-label="View compliance status options" aria-expanded="false"><i
+                    data-lucide="more-horizontal"></i></button>
+                <div class="status-menu" id="statusMenu">
+                  <button data-action="status-details"><i data-lucide="list-checks"></i><span><strong>View
+                        breakdown</strong><small>See every status count</small></span></button>
+                  <button data-action="status-review"><i data-lucide="triangle-alert"></i><span><strong>Review attention
+                        cases</strong><small>Open flagged inspections</small></span></button>
+                  <button data-action="status-analytics"><i data-lucide="chart-no-axes-combined"></i><span><strong>Open
+                        analytics</strong><small>Explore compliance
+                        trends</small></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="donut-wrap">
+              <div class="donut">
+                <div><strong>248</strong><span>Total scans</span></div>
+              </div>
+              <div class="status-list">
+                <div><i class="dot green-dot"></i><span>Compliant</span><strong>184
+                    <small>74.2%</small></strong></div>
+                <div><i class="dot yellow-dot"></i><span>Review needed</span><strong>48
+                    <small>19.4%</small></strong></div>
+                <div><i class="dot coral-dot"></i><span>Non-compliant</span><strong>16
+                    <small>6.4%</small></strong></div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="lower-grid">
+          <article class="panel table-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Recent inspections</h2>
+                <p>Latest products added to your repository</p>
+              </div><button class="text-btn" data-page-target="repository">View all <i
+                  data-lucide="arrow-up-right"></i></button>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Scanned on</th>
+                    <th>Status</th>
+                    <th>Inspector</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="product-cell">
+                        <div class="product-thumb soap">EC</div>
+                        <div><strong>EverClean Detergent</strong><small>Liquid • 2 L</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Today, 10:42 AM</td>
+                    <td><span class="status-pill compliant"><i></i> Compliant</span></td>
+                    <td>Arjun Sharma</td>
+                    <td><button class="row-menu" data-action="recent-history" data-product="everclean"
+                        aria-label="Open EverClean Detergent history"><i data-lucide="more-horizontal"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="product-cell">
+                        <div class="product-thumb tea">TEA</div>
+                        <div><strong>Nilgiri Gold Tea</strong><small>Tea • 250 g</small></div>
+                      </div>
+                    </td>
+                    <td>Today, 09:18 AM</td>
+                    <td><span class="status-pill review"><i></i> Review needed</span></td>
+                    <td>Meera Joshi</td>
+                    <td><button class="row-menu" data-action="recent-history" data-product="nilgiri"
+                        aria-label="Open Nilgiri Gold Tea history"><i data-lucide="more-horizontal"></i></button></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="product-cell">
+                        <div class="product-thumb oil">OIL</div>
+                        <div><strong>SunPure Cooking Oil</strong><small>Edible oil • 1 L</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Yesterday, 04:26 PM</td>
+                    <td><span class="status-pill noncompliant"><i></i> Non-compliant</span></td>
+                    <td>Arjun Sharma</td>
+                    <td><button class="row-menu" data-action="recent-history" data-product="sunpure"
+                        aria-label="Open SunPure Cooking Oil history"><i data-lucide="more-horizontal"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+          <article class="panel action-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Quick actions</h2>
+                <p>Common inspection tasks</p>
+              </div>
+            </div><button class="action-row" id="quickScan"><span class="action-symbol blue"><i
+                  data-lucide="scan"></i></span><span><strong>Scan a product</strong><small>Upload
+                  label images for analysis</small></span><i data-lucide="arrow-right"></i></button><button
+              class="action-row" id="quickReport"><span class="action-symbol orange"><i
+                  data-lucide="file-output"></i></span><span><strong>Generate
+                  report</strong><small>Export an inspection summary</small></span><i
+                data-lucide="arrow-right"></i></button><button class="action-row" id="quickReport"
+              data-action="report"><span class="action-symbol green"><i
+                  data-lucide="search"></i></span><span><strong>Search
+                  repository</strong><small>Find a past product inspection</small></span><i
+                data-lucide="arrow-right"></i></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="page hidden" id="scanPage">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">INSPECTION WORKSPACE</p>
+            <h1>Scan a packaged product</h1>
+            <p class="subheading">Upload clear images of the front, back and side labels for analysis.</p>
+          </div><button class="secondary-btn" id="backOverview"><i data-lucide="arrow-left"></i> Back to
+            overview</button>
+        </div>
+        <div class="scan-layout">
+          <div class="panel upload-panel">
+            <div class="upload-header">
+              <div class="scan-step active"><span>01</span><strong>Upload images</strong></div><i
+                data-lucide="chevron-right"></i>
+              <div class="scan-step"><span>02</span><strong>Review findings</strong></div><i
+                data-lucide="chevron-right"></i>
+              <div class="scan-step"><span>03</span><strong>Issue report</strong></div>
+            </div>
+            <div class="dropzone" id="dropzone"><input type="file" id="fileInput" accept="image/*" multiple hidden>
+              <div class="upload-icon"><i data-lucide="upload-cloud"></i></div>
+              <h2>Drop product images here</h2>
+              <p>or click to browse from your device</p><span>JPG, PNG or WEBP up to 10 MB each</span>
+              <div id="fileList" class="file-list"></div>
+            </div>
+            <div class="upload-footer"><span><i data-lucide="lock"></i> Images are processed securely in
+                your browser</span><button class="primary-btn" id="analyzeBtn" disabled><i data-lucide="sparkles"></i>
+                Analyze product</button></div>
+          </div>
+          <aside class="panel checklist-panel">
+            <h2>What we check</h2>
+            <p>Automated checks based on the Packaged Commodities Rules, 2011.</p>
+            <div class="check-item"><i data-lucide="check"></i><span>Manufacturer / packer details</span>
+            </div>
+            <div class="check-item"><i data-lucide="check"></i><span>Net quantity and unit format</span>
+            </div>
+            <div class="check-item"><i data-lucide="check"></i><span>MRP declaration and inclusions</span>
+            </div>
+            <div class="check-item"><i data-lucide="check"></i><span>Date of manufacture / packing</span>
+            </div>
+            <div class="check-item"><i data-lucide="check"></i><span>Consumer care information</span></div>
+            <div class="check-item"><i data-lucide="check"></i><span>Readability and minimum font
+                size</span></div>
+            <div class="rule-note"><i data-lucide="info"></i><span>Results are an assistive review and
+                should be verified by an authorized officer.</span></div>
+          </aside>
+        </div>
+        <div class="scan-result panel hidden" id="scanResult">
+          <div class="result-header">
+            <div><span class="result-label">ANALYSIS COMPLETE</span>
+              <h2>Product review summary</h2>
+            </div><span class="status-pill review"><i></i> Review needed</span>
+          </div>
+          <div class="result-body">
+            <div class="score-ring">
+              <div class="score-value"><strong>78</strong><span>/ 100</span></div><small>Compliance
+                score</small>
+            </div>
+            <div class="findings">
+              <div class="finding success"><i data-lucide="check-circle-2"></i>
+                <div><strong>5 declarations detected</strong><span>Manufacturer, net quantity, MRP, date
+                    and consumer care</span></div>
+              </div>
+              <div class="finding warning"><i data-lucide="triangle-alert"></i>
+                <div><strong>MRP text may be below minimum size</strong><span>Detected approximately 1.5
+                    mm. Manual verification recommended.</span></div>
+              </div>
+              <div class="finding danger"><i data-lucide="x-circle"></i>
+                <div><strong>Importer address not detected</strong><span>Required declaration could not
+                    be found in the uploaded images.</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="result-footer"><span>Scan ID: MC-26034-0084</span><button class="primary-btn" id="exportReport"><i
+                data-lucide="download"></i> Export report</button></div>
+        </div>
+      </section>
+      <section class="page hidden" id="workflowPage"></section>
+    </main>
+  </div>
+  <div class="modal-backdrop hidden" id="recoveryModal">
+    <form class="modal-card recovery-card" id="recoveryForm"><button type="button" class="modal-close"
+        data-action="close-modal" aria-label="Close"><i data-lucide="x"></i></button>
+      <p class="eyebrow">ACCOUNT RECOVERY</p>
+      <h2>Reset your password</h2>
+      <p class="modal-copy">Verify the phone number linked to your officer account.</p>
+      <div id="recoveryStepPhone"><label>Phone number<input id="recoveryPhone" type="tel" inputmode="numeric"
+            placeholder="+91 98••• ••482" required></label><button class="primary-btn full-btn" type="button"
+          data-action="send-code">Send verification code <i data-lucide="arrow-right"></i></button></div>
+      <div id="recoveryStepCode" class="hidden"><label>Verification code<input id="recoveryCode" inputmode="numeric"
+            maxlength="6" placeholder="Enter 6-digit code"></label>
+        <p class="verification-note"><i data-lucide="message-circle"></i> Demo code sent to your registered
+          number.</p><button class="primary-btn full-btn" type="button" data-action="verify-code">Verify and
+          continue <i data-lucide="check"></i></button>
+      </div>
+      <p class="modal-footnote"><i data-lucide="shield-check"></i> We never display your full phone number.</p>
+    </form>
+  </div>
+  <div class="modal-backdrop hidden" id="cameraModal">
+    <div class="modal-card camera-card"><button type="button" class="modal-close" data-action="close-camera"
+        aria-label="Close camera"><i data-lucide="x"></i></button>
+      <p class="eyebrow">LIVE CAMERA</p>
+      <h2>Capture label image</h2>
+      <p class="modal-copy">Allow camera access, then align the label inside the frame.</p>
+      <div class="camera-viewport"><video id="cameraVideo" autoplay playsinline></video>
+        <div class="camera-frame"></div><span class="camera-status" id="cameraStatus">Requesting camera
+          access...</span>
+      </div>
+      <div class="camera-actions"><button class="secondary-btn" data-action="close-camera">Cancel</button><button
+          class="primary-btn" data-action="take-photo" id="takePhoto" disabled><i data-lucide="camera"></i>
+          Take photo</button></div><canvas id="cameraCanvas" hidden></canvas>
+    </div>
+  </div>
+  <div class="modal-backdrop hidden" id="memberModal">
+    <form class="modal-card" id="memberForm">
+      <button type="button" class="modal-close" data-action="close-member" aria-label="Close"><i
+          data-lucide="x"></i></button>
+      <p class="eyebrow">TEAM MANAGEMENT</p>
+      <h2>Add inspection team member</h2>
+      <p class="modal-copy">Invite an employee to review product label inspections.</p>
+      <label>Full name<input id="memberName" required placeholder="Employee name"></label>
+      <label>Work email<input id="memberEmail" type="email" required placeholder="employee@aletheia.gov.in"></label>
+      <label>Role<select id="memberRole" required>
+          <option value="">Select role</option>
+          <option>Enforcement officer</option>
+          <option>Senior inspector</option>
+          <option>Field inspector</option>
+        </select></label>
+      <button class="primary-btn full-btn" type="submit"><i data-lucide="user-plus"></i> Add member</button>
+    </form>
+  </div>
+  <div class="modal-backdrop hidden" id="rulesLibraryModal">
+    <section class="modal-card rules-library-modal" aria-labelledby="rulesLibraryTitle">
+      <button type="button" class="modal-close" data-action="close-rules-library" aria-label="Close rules library"><i
+          data-lucide="x"></i></button>
+      <p class="eyebrow">REFERENCE MATERIALS</p>
+      <h2 id="rulesLibraryTitle">Rules library</h2>
+      <p class="modal-copy">Shared rules and guidance for every inspection officer.</p>
+      <div id="rulesLibraryFiles" class="rules-library-files">
+        <p class="empty-state">No additional rule files have been added yet.</p>
+      </div>
+      <button class="primary-btn full-btn" id="addRulesLibraryFile" data-action="add-rules-file" type="button"><i
+          data-lucide="upload"></i> Add rules file</button>
+    </section>
+  </div>
+  <div class="toast" id="toast"><i data-lucide="check-circle-2"></i><span>Report exported successfully</span></div>
+  <script src="script.js"></script>
+</body>
+
+</html>
